@@ -1,6 +1,6 @@
 # Pokedex
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.1.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.1., bootstrap and PokeApi
 
 The project is a single page application.
 It contains three main parts.
