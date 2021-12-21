@@ -1,0 +1,117 @@
+<nav class="navbar navbar-primary bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="assets/img/brand.png" alt="" width="100" height="50">
+        </a>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <!-- Col for SHow a pokemon list or Seek a specific pokemon -->
+        <div class="col-lg-4 col-md-4 mt-2 align-center">
+
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Collection</button>
+                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-search" type="button" role="tab" aria-controls="nav-search" aria-selected="false">Search</button>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <!-- This tab shows the list of pokemon in order with a pagination.. -->
+                    <nav aria-label="Page navigation example" class="mt-2">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" (click)="previousPage()" *ngIf="minNumber > 1">Previous</a></li>
+                            <li class="page-item"><a class="page-link" (click)="nextPage()">Next Page</a></li>
+                        </ul>
+                    </nav>
+                    <div *ngIf="this.pokemonList.length == 0" class="d-flex justify-content-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    <div id="pokemonList" *ngIf="this.pokemonList.length > 0">
+                        <h5>Showing Pokemons from {{ minNumber }} to {{ maxNumber }} </h5>
+                        <div class="card mt-2" *ngFor="let item of pokemonList" (click)="showInfo(item)">
+                            <div class="card-header">
+                                {{ '#' + item.id }}
+                            </div>
+                            <div class="card-body">
+                                <div class="row align-items-end">
+                                    <div class="col-md-8">
+                                        <h5> {{ item.name | uppercase }}</h5>
+                                        <span class="badge bg-info text-white m-2" *ngFor="let type of item.types">
+                                            {{ type.type.name }}
+                                        </span>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <img [src]="item.sprites.front_default " alt="" width="70" height="50" class="float-end">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-search" role="tabpanel" aria-labelledby="nav-search-tab">
+                    <!-- This tab shows the search panel.. -->
+                    <label for="searchPokemon" class="mt-2"> <strong>Type the pokemon name:</strong>  </label>
+                    <input #name name="searchPokemon" class="form-control form-control-sm" type="text" aria-label=".form-control-sm example" (keyup)="filterByName(name.value)">
+
+                    <div class="alert alert-warning mt-2" role="alert" *ngIf="pokemonFilterName.length ==  0">
+                        <strong>No match with the search!!</strong>
+                    </div>
+                    <div class="card mt-2" *ngFor="let item of pokemonFilterName" (click)="showItemFilter(item)">
+                        <div class="card-header">
+                            Se han encontrado coincidencias
+                        </div>
+                        <div class="card-body">
+                            <div class="row align-items-end">
+                                <div class="col-md-8">
+                                    <h5> {{ item.name | uppercase }}</h5>
+                                    <span class="badge bg-info text-white m-2" *ngFor="let type of item.types">
+                                        {{ type.type.name }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Col for Show detail information -->
+        <div class="col-lg-8 col-md-8 mt-5">
+            <div class="alert alert-danger" role="alert" *ngIf="pokemonSelected == null">
+                <strong>Please Select a Pokemon for show more info...!!</strong>
+            </div>
+            <div class="row" *ngIf="pokemonSelected != null">
+                <div class="col-md-8">
+                    <div id="info">
+                        <h3>Pokemon : # {{ pokemonSelected.id }} </h3>
+                        <h5><strong> Name :</strong> {{ pokemonSelected.name | uppercase }}</h5>
+                        <hr>
+                        <h5>Types: </h5>
+                        <span class="badge bg-info text-white m-2" *ngFor="let type of pokemonSelected.types">
+                            {{ type.type.name | uppercase }}
+                        </span>
+                    </div>
+                    <h5>Stats: </h5>
+                    <div id="stats" *ngFor="let pokemonStat  of pokemonSelected.stats">
+                        <label for="stats"> {{ pokemonStat.stat.name | uppercase }} : {{ pokemonStat.base_stat }} / 100 </label>
+                    </div>
+                    <br>
+                    <hr>
+                    <h5>Moves: </h5>
+                    <span class="badge bg-danger text-white m-2" *ngFor="let pokemonMove of pokemonSelected.moves.slice(0,10)">
+                        {{ pokemonMove.move.name | uppercase }}
+                    </span>
+                </div>
+                <div class="col-md-4">
+                    <div class="img-container">
+                        <img [src]="pokemonSelected.sprites.other.home.front_default" width="100%" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

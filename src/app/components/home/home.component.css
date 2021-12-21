@@ -1,0 +1,8 @@
+.card {
+    cursor: pointer !important;
+}
+
+.img-container {
+    background-image: url("../../../assets/blob/blob.svg");
+    background-repeat: no-repeat;
+}
